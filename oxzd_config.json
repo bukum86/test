@@ -1,0 +1,27 @@
+{
+  "selected": [],
+  "algo_list": [
+    {
+      "id": "neptune-gpu",
+      "algo": "neptune",
+      "pool": "213.47.31.84:9800",
+      "worker_name": "worker_gpu",
+      "address": "",
+      "config": {
+        "type": "gpu",
+        "option": "all"
+      }
+    },
+    {
+        "id": "neptune-cpu",
+        "algo": "neptune",
+        "pool": "213.47.31.84:9800",
+        "worker_name": "worker_cpu",
+        "address": "",
+        "config": {
+            "type": "cpu",
+            "threads": 18
+        }
+    }
+  ]
+}
