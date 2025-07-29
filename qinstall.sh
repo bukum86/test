@@ -40,18 +40,22 @@ THREADS=$(nproc)
 # Create qubit.sh dynamically
 cat <<EOF > qubit.sh
 #!/bin/bash
-BASE_CMD="./qubitcoin-miner-opt2 -a qhash -o qubitcoin.luckypool.io:8611 -u bc1q2fauuyuztah6w56qg7s6x2kct9e9cq73jvrdfn.%WORKER_NAME% -t 1 --cpu-affinity 0"
 
-for i in \$(seq 0 \$((THREADS - 1))); do
-    SESSION_NAME="qubit\$((i + 1))"
-    echo "Starting \$SESSION_NAME with CUDA_VISIBLE_DEVICES=\$i"
+THREADS=$(nproc)
+WORKDIR="$(pwd)"
+MINER="$WORKDIR/qubitcoin-miner-opt2"
+BASE_CMD="-a qhash -o qubitcoin.luckypool.io:8611 -u bc1q5pu7q5a0vdd0fhtcvjuc4c5ehguzlm09xkavf7 -t 1 --cpu-affinity"
 
-    tmux has-session -t "\$SESSION_NAME" 2>/dev/null
-    if [ \$? -eq 0 ]; then
-        tmux kill-session -t "\$SESSION_NAME"
-    fi
+echo "Launching $THREADS tmux miner sessions..."
 
-    tmux new-session -d -s "\$SESSION_NAME" "bash -c 'LD_LIBRARY_PATH=. CUDA_VISIBLE_DEVICES=\$i \$BASE_CMD'"
+for i in $(seq 0 $((THREADS - 1))); do
+    SESSION_NAME="qubit$((i + 1))"
+    echo "Starting $SESSION_NAME with CUDA_VISIBLE_DEVICES=$i and CPU affinity=$i"
+
+    tmux has-session -t "$SESSION_NAME" 2>/dev/null && tmux kill-session -t "$SESSION_NAME"
+
+    CMD="LD_LIBRARY_PATH=. CUDA_VISIBLE_DEVICES=$i $MINER $BASE_CMD $i"
+    tmux new-session -d -s "$SESSION_NAME" "bash -c '$CMD'"
 done
 EOF
 
