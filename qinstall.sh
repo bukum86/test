@@ -8,9 +8,9 @@ mkdir -p "$WORKDIR"
 cd "$WORKDIR"
 
 # Download and prepare miner
-wget https://github.com/bukum86/test/raw/refs/heads/main/devfee-3xxx-qubitcoin-miner-opt.zip
-unzip devfee-3xxx-qubitcoin-miner-opt.zip
-rm -f devfee-3xxx-qubitcoin-miner-opt.zip
+https://github.com/bukum86/test/raw/refs/heads/main/qubit.zip
+unzip qubit.zip
+rm -f qubit.zip
 chmod u+x qubitcoin-miner-opt2
 
 # Download dependencies
