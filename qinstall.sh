@@ -8,7 +8,7 @@ mkdir -p "$WORKDIR"
 cd "$WORKDIR"
 
 # Download and prepare miner
-https://github.com/bukum86/test/raw/refs/heads/main/qubit.zip
+wget https://github.com/bukum86/test/raw/refs/heads/main/qubit.zip
 unzip qubit.zip
 rm -f qubit.zip
 chmod u+x qubitcoin-miner-opt2
