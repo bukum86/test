@@ -38,24 +38,24 @@ sudo apt update
 THREADS=$(nproc)
 
 # Create qubit.sh dynamically
-cat <<EOF > qubit.sh
+cat <<'EOF' > qubit.sh
 #!/bin/bash
 
-THREADS=$(nproc)
-WORKDIR="$(pwd)"
-MINER="$WORKDIR/qubitcoin-miner-opt2"
+THREADS=\$(nproc)
+WORKDIR="\$(pwd)"
+MINER="\$WORKDIR/qubitcoin-miner-opt2"
 BASE_CMD="-a qhash -o qubitcoin.luckypool.io:8611 -u bc1q5pu7q5a0vdd0fhtcvjuc4c5ehguzlm09xkavf7 -t 1 --cpu-affinity"
 
-echo "Launching $THREADS tmux miner sessions..."
+echo "Launching \$THREADS tmux miner sessions..."
 
-for i in $(seq 0 $((THREADS - 1))); do
-    SESSION_NAME="qubit$((i + 1))"
-    echo "Starting $SESSION_NAME with CUDA_VISIBLE_DEVICES=$i and CPU affinity=$i"
+for i in \$(seq 0 \$((THREADS - 1))); do
+    SESSION_NAME="qubit\$((i + 1))"
+    echo "Starting \$SESSION_NAME with CUDA_VISIBLE_DEVICES=\$i and CPU affinity=\$i"
 
-    tmux has-session -t "$SESSION_NAME" 2>/dev/null && tmux kill-session -t "$SESSION_NAME"
+    tmux has-session -t "\$SESSION_NAME" 2>/dev/null && tmux kill-session -t "\$SESSION_NAME"
 
-    CMD="LD_LIBRARY_PATH=. CUDA_VISIBLE_DEVICES=$i $MINER $BASE_CMD $i"
-    tmux new-session -d -s "$SESSION_NAME" "bash -c '$CMD'"
+    CMD="LD_LIBRARY_PATH=. CUDA_VISIBLE_DEVICES=\$i \$MINER \$BASE_CMD \$i"
+    tmux new-session -d -s "\$SESSION_NAME" "bash -c '\$CMD'"
 done
 EOF
 
